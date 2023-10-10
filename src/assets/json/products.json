@@ -1,0 +1,38 @@
+[
+  {
+    "img": "/vegetables.jpeg",
+    "name": "Kembang Kol",
+    "category": "Aneka Sayur",
+    "price": 4000,
+    "unit": "kg",
+    "rating": 4,
+    "sold": 10
+  },
+  {
+    "img": "/vegetables.jpeg",
+    "name": "Wortel Lembang",
+    "category": "Aneka Sayur",
+    "price": 8000,
+    "unit": "kg",
+    "rating": 4,
+    "sold": 56
+  },
+  {
+    "img": "/vegetables.jpeg",
+    "name": "Bayam Brazil",
+    "category": "Aneka Sayur",
+    "price": 3500,
+    "unit": "kg",
+    "rating": 3,
+    "sold": 64
+  },
+  {
+    "img": "/vegetables.jpeg",
+    "name": "Sawi Putih",
+    "category": "Aneka Sayur",
+    "price": 2000,
+    "unit": "kg",
+    "rating": 2,
+    "sold": 8
+  }
+]

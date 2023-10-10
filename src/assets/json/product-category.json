@@ -1,0 +1,38 @@
+[
+  {
+    "id": "FRUIT",
+    "title": "Buah-buahan",
+    "color": "bg-white",
+    "icon": "IconFruit"
+  },
+  {
+    "id": "VEGETABLE",
+    "title": "Aneka Sayuran",
+    "color": "bg-white",
+    "icon": "IconVegetable"
+  },
+  {
+    "id": "FUNGI",
+    "title": "Aneka Jamur",
+    "color": "bg-white",
+    "icon": "IconFungi"
+  },
+  {
+    "id": "ONION",
+    "title": "Bumbu Dapur",
+    "color": "bg-white",
+    "icon": "IconOnion"
+  },
+  {
+    "id": "BEANS",
+    "title": "Biji-bijian",
+    "color": "bg-white",
+    "icon": "IconBeans"
+  },
+  {
+    "id": "SPICE",
+    "title": "Rempah-rempah",
+    "color": "bg-white",
+    "icon": "IconGinger"
+  }
+]
