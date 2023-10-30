@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { hover } from "@/lib/hover";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signIn } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 
 type UserAuthForm = {
   email: string;
@@ -25,7 +27,9 @@ const schema = yup
 function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
 
+  const { toast } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     handleSubmit,
     register,
@@ -34,8 +38,28 @@ function SignInForm() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: UserAuthForm) => {
-    console.log("🚀 ~ file: sign-in-form.tsx:27 ~ onSubmit ~ data:", data);
+  const onSubmit = async (data: UserAuthForm) => {
+    try {
+      const user = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: searchParams.get("callbackUrl") || "/",
+        redirect: false,
+      });
+
+      if (!user?.error) {
+        router.push(user?.url || "/");
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: "Please check your email and password",
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: sign-in-form.tsx:41 ~ onSubmit ~ error:", error);
+    }
   };
 
   return (

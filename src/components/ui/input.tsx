@@ -23,7 +23,7 @@ const _renderPrefixSuffix = (item: string) => {
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, error, ...props }, ref) => {
+  ({ className, type, error, onPressSuffix, ...props }, ref) => {
     return (
       <>
         <div className="relative">
@@ -40,17 +40,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
 
           {props.prefix && (
-            <div className="absolute top-1/2 py-[10px] px-3 text-sm">
+            <div className="absolute top-2 py-[10px] px-3 text-sm">
               {_renderPrefixSuffix(props.prefix)}
             </div>
           )}
 
           {props.suffix && (
             <div
-              className={cn("absolute top-1/2 px-3 right-0 text-sm", {
-                "cursor-pointer": !!props.onPressSuffix,
+              className={cn("absolute top-2 px-3 right-0 text-sm", {
+                "cursor-pointer": !!onPressSuffix,
               })}
-              onClick={() => props.onPressSuffix?.()}
+              onClick={() => onPressSuffix?.()}
             >
               {_renderPrefixSuffix(props.suffix)}
             </div>
