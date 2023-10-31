@@ -68,7 +68,7 @@ function SignInForm() {
         Masuk akun anda
       </div>
       <Input
-        className="w-[100%] p-4 rounded-sm"
+        className="w-[100%]"
         type="text"
         placeholder="Email"
         {...register("email")}
@@ -76,7 +76,7 @@ function SignInForm() {
       />
       <div className="w-[100%] relative mt-4">
         <Input
-          className="w-[100%] p-4 rounded-sm"
+          className="w-[100%]"
           type={showPassword ? "text" : "password"}
           placeholder="Kata Sandi"
           suffix="Eye"

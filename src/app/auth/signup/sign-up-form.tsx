@@ -50,14 +50,14 @@ function SignUpForm() {
         Buat akun baru
       </div>
       <Input
-        className="w-[100%] p-4 rounded-sm mt-4"
+        className="w-[100%] mt-4"
         type="text"
         placeholder="Nama Lengkap"
         {...register("name")}
         error={errors.name?.message}
       />
       <Input
-        className="w-[100%] p-4 rounded-sm mt-4"
+        className="w-[100%] mt-4"
         type="text"
         placeholder="Email"
         {...register("email")}
@@ -65,7 +65,7 @@ function SignUpForm() {
       />
 
       <Input
-        className="w-[100%] p-4 rounded-sm mt-4"
+        className="w-[100%] mt-4"
         type={showPassword ? "text" : "password"}
         placeholder="Kata Sandi"
         suffix="Eye"
@@ -75,7 +75,7 @@ function SignUpForm() {
       />
 
       <Input
-        className="w-[100%] p-4 rounded-sm mt-4"
+        className="w-[100%] mt-4"
         type={showConfirmationPassword ? "text" : "password"}
         placeholder="Konfirmasi Kata Sandi"
         suffix="Eye"
