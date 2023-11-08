@@ -40,11 +40,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
 
 interface HeaderProps {}
 
 const CommonHeader: React.FC<HeaderProps> = () => {
-  const isLoggedIn = true;
+  const { data: session } = useSession();
 
   return (
     <>
@@ -109,7 +110,7 @@ const CommonHeader: React.FC<HeaderProps> = () => {
             </NavigationMenu>
           </div>
 
-          {isLoggedIn ? (
+          {session?.user ? (
             <div className="flex gap-4 items-center">
               <CommonNotificationBadge
                 notificationDetail={{ color: "bg-leaf", count: 2 }}
@@ -130,7 +131,7 @@ const CommonHeader: React.FC<HeaderProps> = () => {
               </CommonNotificationBadge>
               <div className="w-[42px] h-[42px] rounded-full relative overflow-hidden">
                 <Image
-                  src="https://ui-avatars.com/api/?name=Taufan+Fadhilah&background=random"
+                  src={`https://ui-avatars.com/api/?name=${session.user.name}&background=random`}
                   layout="fill"
                   alt=""
                   objectFit="cover"
@@ -139,7 +140,7 @@ const CommonHeader: React.FC<HeaderProps> = () => {
 
               <div className="flex flex-col w-[127px] justify-center">
                 <div className="text-xs">Hi, Apa Kabar?</div>
-                <div className="text-sm font-semibold">Taufan Fadhillah</div>
+                <div className="text-sm font-semibold">{session.user.name}</div>
               </div>
 
               <DropdownMenu>
@@ -153,24 +154,34 @@ const CommonHeader: React.FC<HeaderProps> = () => {
                   <DropdownMenuItem>
                     <Link href="/history">History Transactions</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/auth/signin">Logout</Link>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      signOut({
+                        callbackUrl: "/auth/signin",
+                      })
+                    }
+                  >
+                    Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           ) : (
             <div className="flex gap-6">
-              <Button
-                className={cn("py-1 px-7 bg-leaf leading-4", hover.shadow)}
-              >
-                Daftar Sekarang
-              </Button>
-              <Button
-                className={cn("py-1 px-7 bg-carrot leading-4", hover.shadow)}
-              >
-                Masuk akun
-              </Button>
+              <Link href="/auth/signup">
+                <Button
+                  className={cn("py-1 px-7 bg-leaf leading-4", hover.shadow)}
+                >
+                  Daftar Sekarang
+                </Button>
+              </Link>
+              <Link href="/auth/signin">
+                <Button
+                  className={cn("py-1 px-7 bg-carrot leading-4", hover.shadow)}
+                >
+                  Masuk akun
+                </Button>
+              </Link>
             </div>
           )}
         </div>
