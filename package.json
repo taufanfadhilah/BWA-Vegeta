@@ -2,6 +2,9 @@
   "name": "vegeta-prototype",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seeds/index.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -49,6 +52,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.1",
-    "prisma": "5.1.1"
+    "prisma": "5.1.1",
+    "ts-node": "10.9.1"
   }
 }
