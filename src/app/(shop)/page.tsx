@@ -43,7 +43,7 @@ export default function Home() {
           </div>
           <ProductShowcase
             gridConfig={"grid-cols-4"}
-            products={data?.data?.slice(0, 4) || []}
+            products={data?.data?.data?.slice(0, 4) || []}
             isLoading={isLoading}
           />
         </div>
