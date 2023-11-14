@@ -40,6 +40,9 @@ export default function Products() {
   const { data, isLoading } = useGetAllProductsQuery({
     page: searchParams?.get("page") || undefined,
     category: searchParams.get("category") || undefined,
+    min_price: searchParams.get("min_price") || undefined,
+    max_price: searchParams.get("max_price") || undefined,
+    rating: searchParams.get("rating") || undefined,
   });
   const { data: recommendationProducts, isLoading: recommendationisLoading } =
     useGetAllProductsQuery({});
@@ -72,9 +75,36 @@ export default function Products() {
             }
           />
           <div className="w-full separator my-4" />
-          <FilterPrice />
+          <FilterPrice
+            value={{
+              min: searchParams?.get("min_price")
+                ? parseInt(searchParams?.get("min_price") as string)
+                : undefined,
+              max: searchParams?.get("max_price")
+                ? parseInt(searchParams?.get("max_price") as string)
+                : undefined,
+            }}
+            onChange={(price) => {
+              if (
+                price.min !== parseInt(searchParams?.get("min_price") as string)
+              ) {
+                handleChangeFilter("min_price", `${price.min}`);
+              } else {
+                handleChangeFilter("max_price", `${price.max}`);
+              }
+            }}
+          />
           <div className="w-full separator my-4" />
-          <FilterRating />
+          <FilterRating
+            value={
+              searchParams.get("rating")
+                ? searchParams.get("rating")?.split(",")
+                : []
+            }
+            onChange={(selectedRating) =>
+              handleChangeFilter("rating", selectedRating.join(","))
+            }
+          />
         </div>
 
         <div className="flex-[3]">
