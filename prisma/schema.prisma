@@ -20,12 +20,13 @@ enum ProductCategory {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  Checkout  Checkout[]
 
   @@map("users")
 }
@@ -41,6 +42,22 @@ model Product {
   category    ProductCategory
   createdAt   DateTime        @default(now()) @map("created_at")
   updatedAt   DateTime        @updatedAt @map("updated_at")
+  Checkout    Checkout[]
 
   @@map("products")
+}
+
+model Checkout {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  productId    String   @map("product_id")
+  qty          Int      @default(0) @db.UnsignedInt
+  pricePerItem Int      @default(0) @map("price_per_item") @db.UnsignedInt
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("checkouts")
 }
