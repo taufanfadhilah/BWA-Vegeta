@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 
 // components
@@ -8,36 +9,23 @@ import ItemList from "./ItemList";
 // utils
 import { cn, formatNumber } from "@/lib/utils";
 import { hover } from "@/lib/hover";
+import { useCheckoutsQuery } from "@/services/transaction";
+import { useState } from "react";
+import { DeliveryMethod } from "@/types/deliver-method";
 
 export default function Checkout() {
-  const deliveryMethod = "HOME_DELIVERY";
-  const products = [
-    {
-      img: "/vegetables.jpeg",
-      price: 40000,
-      rating: 4.9,
-      sold: 40,
-      name: "Kembang Kol",
-      unit: "kg",
-      itemCount: 1,
-    },
-    {
-      img: "/vegetables.jpeg",
-      price: 25000,
-      rating: 4.9,
-      sold: 40,
-      name: "Kentang Gondangdia",
-      unit: "kg",
-      itemCount: 2,
-    },
-  ];
+  const [deliveryMethod, setDeliveryMethod] =
+    useState<DeliveryMethod>("HOME_DELIVERY");
+
+  const { data } = useCheckoutsQuery();
+  const products = data?.data || [];
 
   const totalPrice = products.reduce(
-    (total, product) => total + product.price * (product.itemCount || 1),
+    (total, product) => total + product.pricePerItem * (product.qty || 1),
     0
   );
   const totalItem = products.reduce(
-    (total, product) => total + (product.itemCount || 1),
+    (total, product) => total + (product.qty || 1),
     0
   );
   const applicationFee = 1000;
@@ -51,11 +39,14 @@ export default function Checkout() {
       <main className="flex flex-col w-full items-center pb-16 pt-5">
         <div className="w-content flex gap-8">
           <div className="flex-[2] flex flex-col gap-8">
-            <ItemList />
+            <ItemList products={products} />
 
             <div className="separator" />
 
-            <DeliveryOptions />
+            <DeliveryOptions
+              value={deliveryMethod}
+              onChange={setDeliveryMethod}
+            />
           </div>
 
           <div className="flex-1 h-auto">
