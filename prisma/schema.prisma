@@ -19,14 +19,20 @@ enum ProductCategory {
   SPICE
 }
 
+enum DeliveryType {
+  HOME_DELIVERY
+  STORE_PICKUP
+}
+
 model User {
-  id        String     @id @default(cuid())
-  name      String
-  email     String     @unique
-  password  String
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-  Checkout  Checkout[]
+  id          String        @id @default(cuid())
+  name        String
+  email       String        @unique
+  password    String
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  Checkout    Checkout[]
+  Transaction Transaction[]
 
   @@map("users")
 }
@@ -48,16 +54,36 @@ model Product {
 }
 
 model Checkout {
-  id           String   @id @default(cuid())
-  userId       String   @map("user_id")
-  productId    String   @map("product_id")
-  qty          Int      @default(0) @db.UnsignedInt
-  pricePerItem Int      @default(0) @map("price_per_item") @db.UnsignedInt
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  productId     String   @map("product_id")
+  transactionId String?  @map("transaction_id")
+  qty           Int      @default(0) @db.UnsignedInt
+  pricePerItem  Int      @default(0) @map("price_per_item") @db.UnsignedInt
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+  product     Product      @relation(fields: [productId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
 
   @@map("checkouts")
+}
+
+model Transaction {
+  id              String       @id @default(cuid())
+  userId          String       @map("user_id")
+  totalPrice      Int          @default(0) @map("total_price") @db.UnsignedInt
+  deliveryFee     Int          @default(0) @map("delivery_fee") @db.UnsignedInt
+  asuranceFee     Int          @default(0) @map("asurance_fee") @db.UnsignedInt
+  applicationFee  Int          @default(0) @map("application_fee") @db.UnsignedInt
+  grandTotalPrice Int          @default(0) @map("grand_total_price") @db.UnsignedInt
+  deliveryType    DeliveryType @default(HOME_DELIVERY)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  user     User       @relation(fields: [userId], references: [id])
+  Checkout Checkout[]
+
+  @@map("transactions")
 }
